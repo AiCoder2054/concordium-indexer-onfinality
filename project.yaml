@@ -16,11 +16,9 @@ network:
   # OnFinality will provide the network endpoint at deployment time.
   # You may set a local endpoint for development if you wish:
   # endpoint:
-  #   - 'https://grpc.testnet.concordium.com:20000'
-  # Genesis block hash for Concordium testnet (used by OnFinality to validate the RPC endpoint)
-  chainId: '4221332d34e1694168c2a0c0b3fd0f273809612cb13d000d5c2e00e85f50f796'
-  endpoint:
-    - 'https://grpc.testnet.concordium.com:20000'
+  #   - 'https://grpc.mainnet.concordium.com:20000'
+  # Genesis block hash for Concordium mainnet (used by OnFinality to validate the RPC endpoint)
+  chainId: '9dd9ca4d19e9393877d2c44b70f89acbfc0883c2243e5eeaecc0d1cd0503f478'
 dataSources:
   - kind: concordium/Runtime
     startBlock: 1
