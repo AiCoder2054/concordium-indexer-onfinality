@@ -16,10 +16,10 @@ network:
   # OnFinality will provide the network endpoint at deployment time.
   # You may set a local endpoint for development if you wish:
   # endpoint:
-  #   - 'grpc.testnet.concordium.com:20000'
+  #   - 'https://grpc.testnet.concordium.com:20000'
   chainId: '4221332d34e1694168c2a0c0b3fd0f27'
   endpoint:
-    - 'grpc.testnet.concordium.com:20000'
+    - 'https://grpc.testnet.concordium.com:20000'
 dataSources:
   - kind: concordium/Runtime
     startBlock: 1
