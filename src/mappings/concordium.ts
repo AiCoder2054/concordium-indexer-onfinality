@@ -53,14 +53,12 @@ export async function handleAccountTransfer(tx: ConcordiumTransaction): Promise<
 
   const id = `${blockHeight}-${hash}`;
 
-  const entity = Transfer.create({
-    id,
-    blockHeight: BigInt(blockHeight),
-    sender: String(sender),
-    receiver: String(receiver),
-    amount,
-    transactionHash: String(hash),
-  });
+  const entity = new Transfer(id);
+  entity.blockHeight = BigInt(blockHeight);
+  entity.sender = String(sender);
+  entity.receiver = String(receiver);
+  entity.amount = amount;
+  entity.transactionHash = String(hash);
 
   await entity.save();
 }
@@ -81,12 +79,10 @@ export async function handleUpdatedEvent(ev: ConcordiumTransactionEvent): Promis
 
   const id = `${blockHeight}-${ev?.id ?? ev?.index ?? txHash}`;
 
-  const e = TransferEvent.create({
-    id,
-    blockHeight: BigInt(blockHeight),
-    tag: String(tag),
-    transactionHash: String(txHash),
-  });
+  const e = new TransferEvent(id);
+  e.blockHeight = BigInt(blockHeight);
+  e.tag = String(tag);
+  e.transactionHash = String(txHash);
 
   await e.save();
 }

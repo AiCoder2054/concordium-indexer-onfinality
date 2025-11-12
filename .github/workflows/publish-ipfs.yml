@@ -1,0 +1,107 @@
+name: Publish SubQuery to IPFS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+    paths-ignore:
+      - ".github/**"
+      - "README.md"
+      - "LICENSE*"
+  release:
+    types: [published]
+
+concurrency:
+  group: publish-ipfs-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build, Validate, and Publish to IPFS
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: SubQuery Codegen
+        run: npm run codegen
+
+      - name: Build
+        run: npm run build
+
+      - name: Validate
+        run: npm run validate
+
+      - name: Ensure SUBQL_ACCESS_TOKEN present
+        run: |
+          if [ -z "${SUBQL_ACCESS_TOKEN:-}" ]; then
+            echo "SUBQL_ACCESS_TOKEN secret is missing. Please add it in repo settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+        env:
+          SUBQL_ACCESS_TOKEN: ${{ secrets.SUBQL_ACCESS_TOKEN }}
+
+      - name: Publish to IPFS via SubQuery CLI
+        id: publish
+        env:
+          SUBQL_ACCESS_TOKEN: ${{ secrets.SUBQL_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          echo "Publishing to IPFS via SubQuery CLI..."
+          npx subql --version || true
+          out="$(npx subql publish 2>&1 | tee publish_output.log)"
+          # Parse CIDv0 (Qm...) or CIDv1 (bafy...)
+          cid="$(echo "$out" | sed -nE 's/.*(Qm[1-9A-Za-z]{44,}).*/\1/p' | tail -n1 || true)"
+          if [ -z "${cid:-}" ]; then
+            cid="$(echo "$out" | sed -nE 's/.*(bafy[1-9A-Za-z]{20,}).*/\1/p' | tail -n1 || true)"
+          fi
+          if [ -z "${cid:-}" ] && [ -f .project-cid ]; then
+            cid="$(tr -d '[:space:]' < .project-cid)"
+          fi
+          if [ -z "${cid:-}" ]; then
+            echo "Failed to parse IPFS CID from publish output:"
+            tail -n +1 publish_output.log
+            exit 1
+          fi
+          echo "$cid" > ipfs_cid.txt
+          echo "cid=$cid" >> "$GITHUB_OUTPUT"
+          {
+            echo "SubQuery IPFS CID: $cid"
+            echo
+            echo "IPFS Gateway URL: https://ipfs.io/ipfs/$cid"
+            echo
+            echo "You can now deploy this CID on OnFinality."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload CID and logs as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: subquery-ipfs-cid
+          path: |
+            ipfs_cid.txt
+            publish_output.log
+
+      - name: Comment CID on commit/PR
+        if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: subquery-ipfs
+          message: |
+            SubQuery project published to IPFS.
+
+            CID: ${{ steps.publish.outputs.cid }}
+            Gateway: https://ipfs.io/ipfs/${{ steps.publish.outputs.cid }}
+        continue-on-error: true
