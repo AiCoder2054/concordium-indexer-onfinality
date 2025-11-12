@@ -23,17 +23,17 @@ dataSources:
   - kind: concordium/Runtime
     startBlock: 1
     mapping:
-        file: ./dist/index.js
-        handlers:
-          - handler: handleAccountTransfer
-            kind: concordium/TransactionHandler
-            filter:
-              type: accountTransaction
-              values:
-                transactionType: transfer
-          - handler: handleUpdatedEvent
-            kind: concordium/TransactionEventHandler
-            filter:
-              type: Updated
+      file: ./dist/index.js
+      handlers:
+        - handler: handleAccountTransfer
+          kind: concordium/TransactionHandler
+          filter:
+            type: accountTransaction
+            values:
+              transactionType: transfer
+        - handler: handleUpdatedEvent
+          kind: concordium/TransactionEventHandler
+          filter:
+            type: Updated
 # ci: trigger workflow re-run
 # ci: re-run after adding SUBQL_ACCESS_TOKEN
