@@ -53,7 +53,15 @@ export async function handleAccountTransfer(tx: ConcordiumTransaction): Promise<
 
   const id = `${blockHeight}-${hash}`;
 
-  const entity = new Transfer(id);
+  // The generated Transfer model constructor requires all non-nullable fields.
+  const entity = new Transfer(
+    id,
+    BigInt(blockHeight),
+    String(sender),
+    String(receiver),
+    amount,
+    String(hash),
+  );
   entity.blockHeight = BigInt(blockHeight);
   entity.sender = String(sender);
   entity.receiver = String(receiver);
@@ -79,7 +87,13 @@ export async function handleUpdatedEvent(ev: ConcordiumTransactionEvent): Promis
 
   const id = `${blockHeight}-${ev?.id ?? ev?.index ?? txHash}`;
 
-  const e = new TransferEvent(id);
+  // The generated TransferEvent model constructor also requires all non-nullable fields.
+  const e = new TransferEvent(
+    id,
+    BigInt(blockHeight),
+    String(tag),
+    String(txHash),
+  );
   e.blockHeight = BigInt(blockHeight);
   e.tag = String(tag);
   e.transactionHash = String(txHash);
