@@ -1,0 +1,21 @@
+{
+  "name": "concordium-indexer-onfinality",
+  "version": "0.1.0",
+  "description": "A minimal SubQuery indexer for Concordium, ready to deploy on OnFinality (requires IPFS CID and RPC endpoint).",
+  "license": "MIT",
+  "scripts": {
+    "codegen": "subql codegen",
+    "build": "subql build",
+    "validate": "subql validate",
+    "publish:ipfs": "subql publish -o"
+  },
+  "dependencies": {
+    "@subql/node-concordium": "latest",
+    "@subql/query": "latest",
+    "@subql/types-concordium": "latest"
+  },
+  "devDependencies": {
+    "@subql/cli": "latest",
+    "typescript": "^5.4.0"
+  }
+}
