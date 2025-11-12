@@ -33,3 +33,5 @@ dataSources:
           kind: concordium/TransactionEvent
           filter:
             type: Updated
+# ci: trigger workflow re-run
+# ci: re-run after adding SUBQL_ACCESS_TOKEN
