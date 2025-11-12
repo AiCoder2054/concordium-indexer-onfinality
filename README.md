@@ -53,12 +53,12 @@ Manual run:
 2) Choose SubQuery and select "From IPFS", then paste the IPFS CID from the workflow run summary.
 3) Select Indexer and Query versions (use latest unless you have a specific requirement).
 4) Provide the Concordium RPC endpoint (gRPC):
-   - Mainnet: grpc.mainnet.concordium.com:20000
-   - Testnet: grpc.testnet.concordium.com:20000
-   - Or your own/private Concordium node endpoint.
+   - Mainnet: https://grpc.mainnet.concordium.com:20000
+   - Testnet: https://grpc.testnet.concordium.com:20000
+   - Or your own/private Concordium node endpoint (include https://).
 
 Notes:
-- The project manifest (project.yaml) intentionally leaves `network.endpoint` empty; OnFinality will inject the endpoint you provide here.
+- OnFinality injects the Concordium endpoint; ensure the value includes the `https://` prefix or SubQuery will downgrade to insecure gRPC and the connection will be rejected.
 - Optionally add a dictionary endpoint if available for your network to speed up indexing (not required).
 
 Once the deployment is created, OnFinality will start indexing and expose a GraphQL API URL for queries.
