@@ -33,3 +33,4 @@ dataSources:
           kind: concordium/TransactionEvent
           filter:
             type: Updated
+# ci: trigger workflow re-run
