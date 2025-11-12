@@ -6,10 +6,13 @@
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
+    "noImplicitAny": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "lib": ["es2017"],
-    "types": ["node"]
+    "types": ["node", "@subql/types-concordium"]
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }
