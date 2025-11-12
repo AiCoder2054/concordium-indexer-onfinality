@@ -12,7 +12,8 @@
   "dependencies": {
     "@subql/node-concordium": "latest",
     "@subql/query": "latest",
-    "@subql/types-concordium": "latest"
+    "@subql/types-concordium": "latest",
+    "@subql/types": "latest"
   },
   "devDependencies": {
     "@subql/cli": "latest",
