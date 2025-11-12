@@ -16,7 +16,7 @@ schema:
     # You may set a local endpoint for development if you wish:
     # endpoint:
     #   - 'grpc.testnet.concordium.com:20000'
-    chainId: 'ccd-testnet'
+    chainId: '4221332d34e1694168c2a0c0b3fd0f273809612cb13d000d5c2e00e85f50f796'
     endpoint:
       - 'grpc.testnet.concordium.com:20000'
 dataSources:
