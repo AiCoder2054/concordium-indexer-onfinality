@@ -1,0 +1,15 @@
+type Transfer @entity {
+  id: ID!
+  blockHeight: BigInt!
+  sender: String!
+  receiver: String!
+  amount: BigInt!
+  transactionHash: String!
+}
+
+type TransferEvent @entity {
+  id: ID!
+  blockHeight: BigInt!
+  tag: String!
+  transactionHash: String!
+}

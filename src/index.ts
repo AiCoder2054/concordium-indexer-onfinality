@@ -1,0 +1,1 @@
+export { handleAccountTransfer, handleUpdatedEvent } from './mappings/concordium';
