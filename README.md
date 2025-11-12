@@ -56,6 +56,9 @@ Manual run:
    - Mainnet: https://grpc.mainnet.concordium.com:20000
    - Testnet: https://grpc.testnet.concordium.com:20000
    - Or your own/private Concordium node endpoint (include https://).
+   - Ensure the manifest `network.chainId` matches the endpoint's network:
+     - Testnet genesis hash: `4221332d34e1694168c2a0c0b3fd0f273809612cb13d000d5c2e00e85f50f796`
+     - Mainnet genesis hash: `9dd9ca4d19e9393877d2c44b70f89acbfc0883c2243e5eeaecc0d1cd0503f478`
 
 Notes:
 - OnFinality injects the Concordium endpoint; ensure the value includes the `https://` prefix or SubQuery will downgrade to insecure gRPC and the connection will be rejected.
@@ -78,6 +81,7 @@ Once the deployment is created, OnFinality will start indexing and expose a Grap
 
 - The IPFS publish step requires SUBQL_ACCESS_TOKEN to be set as a repo secret.
 - Ensure you are using the Concordium-specific runner (`@subql/node-concordium`) as defined in project.yaml.
+- OnFinality validates the endpoint by comparing its genesis block hash against `network.chainId`. A truncated or incorrect hash will cause every endpoint check to fail.
 - If your chain uses different payload fields for transfers, update `src/mappings/concordium.ts` accordingly.
 
 ## License
