@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "lib": ["es2017"],
-    "types": ["node", "@subql/types-concordium"]
+    "types": ["node", "@subql/types", "@subql/types-concordium"]
   },
   "include": [
     "src/**/*"
