@@ -6,17 +6,18 @@
   "scripts": {
     "codegen": "subql codegen",
     "build": "subql build",
-    "validate": "subql validate",
+    "validate": "node scripts/validate.js",
     "publish:ipfs": "subql publish -o"
   },
   "dependencies": {
     "@subql/node-concordium": "latest",
     "@subql/query": "latest",
-    "@subql/types-concordium": "latest",
-    "@subql/types": "latest"
+    "@subql/types": "latest",
+    "@subql/types-concordium": "latest"
   },
   "devDependencies": {
     "@subql/cli": "latest",
+    "js-yaml": "^4.1.0",
     "typescript": "^5.4.0"
   }
 }
